@@ -21,7 +21,7 @@ app.get('/test', (req, res) => {
 
 // endpoint para redirigir al front
 app.get('/home', (req, res) => {
-  res.redirect('/')
+  res.redirect('http://18.236.147.124')
   
 });
 
@@ -29,7 +29,7 @@ app.get('/home', (req, res) => {
 // endpoint para leer todos los productos 
 app.get('/products', (req, res) => {
 
-  MongoClient.connect(mongoUrl, { useNewUrlParser: true }, function(err, db) {
+  MongoClient.connect(mongoUrl, { useNewUrlParser: true }, (err, db)=> {
     if (err) throw err;
     var dbo = db.db("store");
     dbo.collection("products").find({}).toArray(function(err, result) {
@@ -44,25 +44,6 @@ app.get('/products', (req, res) => {
 
 //endpoint para crear los productos
 
-app.post('/test', (req, res) => {
-  MongoClient.connect(mongoUrl, { useNewUrlParser: true }, (err, db) => {
-        console.log(mongoUrl+'quepasa')
-        if (err) {
-      res.status(500).send('💥 BOOM 💥: ' + err);
-      var dbo = db.db("store");
-    var myobj = { name: "Company Inc", address: "Highway 37" };
-    dbo.collection("products").insertOne(myobj, function(err, res) {
-      if (err) throw err;
-      console.log("Product Added ");
-      db.close();
-    });
-      
-    } else {
-      res.send('Me conecté a la DB! 😎');
-      db.close();
-    }
-  });
-});
 app.post('/product', (req, res) => {
   MongoClient.connect(mongoUrl, { useNewUrlParser: true },(err, db)=> {
     console.log(mongoUrl)
@@ -80,9 +61,10 @@ app.post('/product', (req, res) => {
 
 //endpoint para eliminar los productos 
 app.delete('/product', (req, res) => {
-  MongoClient.connect(mongoUrl, { useNewUrlParser: true },function(err, db) {
-    if (err) throw err;
+  MongoClient.connect(mongoUrl, { useNewUrlParser: true },(err, db) =>{
+    if (err) throw req.body.data;
     var dbo = db.db("store");
+    console.log(req.body.data)
     var myquery = { id: req.body.data };
     dbo.collection("products").deleteOne(myquery, function(err, obj) {
       if (err) throw err;
