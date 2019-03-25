@@ -45,7 +45,7 @@ app.get('/products', (req, res) => {
 
 app.post('/product', (req, res) => {
   MongoClient.connect(mongoUrl, { useNewUrlParser: true },(err, db)=> {
-    if (err) throw err;
+    if (err);{}
     var dbo = db.db("store");
     var myobj = { name: "Company Inc", address: "Highway 37" };
     dbo.collection("products").insertOne(myobj, function(err, res) {
