@@ -1,8 +1,8 @@
 FROM node:8
 
-COPY [".", "/usr/src/"]
+COPY [".", "/usr/src/backend"]
 
-WORKDIR /usr/src
+WORKDIR /usr/src/backend
 
 RUN npm install
 
