@@ -44,7 +44,7 @@ app.get('/products', (req, res) => {
 //endpoint para crear los productos
 
 app.post('/product', (req, res) => {
-  MongoClient.connect(mongoUrl, { useNewUrlParser: true },function(err, db) {
+  MongoClient.connect(mongoUrl, { useNewUrlParser: true },(err, db)=> {
     if (err) throw err;
     var dbo = db.db("store");
     var myobj = { name: "Company Inc", address: "Highway 37" };
