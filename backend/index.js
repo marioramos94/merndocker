@@ -11,6 +11,7 @@ app.get('/test', (req, res) => {
   MongoClient.connect(mongoUrl, { useNewUrlParser: true }, (err, db) => {
         if (err) {
       res.status(500).send('💥 BOOM 💥: ' + err);
+
     } else {
       res.send('Me conecté a la DB! 😎');
       db.close();
@@ -43,8 +44,28 @@ app.get('/products', (req, res) => {
 
 //endpoint para crear los productos
 
+app.post('/test', (req, res) => {
+  MongoClient.connect(mongoUrl, { useNewUrlParser: true }, (err, db) => {
+        console.log(mongoUrl+'quepasa')
+        if (err) {
+      res.status(500).send('💥 BOOM 💥: ' + err);
+      var dbo = db.db("store");
+    var myobj = { name: "Company Inc", address: "Highway 37" };
+    dbo.collection("products").insertOne(myobj, function(err, res) {
+      if (err) throw err;
+      console.log("Product Added ");
+      db.close();
+    });
+      
+    } else {
+      res.send('Me conecté a la DB! 😎');
+      db.close();
+    }
+  });
+});
 app.post('/product', (req, res) => {
   MongoClient.connect('mongodb://localhost:27017/', { useNewUrlParser: true },(err, db)=> {
+    console.log(mongoUrl)
     if (err);{}
     var dbo = db.db("store");
     var myobj = { name: "Company Inc", address: "Highway 37" };
