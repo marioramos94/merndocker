@@ -61,14 +61,13 @@ app.post('/product', (req, res) => {
 
 //endpoint para eliminar los productos 
 app.delete('/product', (req, res) => {
-  console.log(req.body.data + "1")
-  console.log(req.body +"2")
-  console.log(req.body.data.data + "3")
+  console.log(req.body)
+  var helo=JSON.parse(req.body)
 
   MongoClient.connect(mongoUrl, { useNewUrlParser: true },(err, db) =>{
-    if (req.body) throw req.body.data;
+    if (err) throw req.body.data;
     var dbo = db.db("store");
-    console.log(req.body.data)
+    
     var myquery = { id: req.body.data.data };
     dbo.collection("products").deleteOne(myquery, function(err, obj) {
       if (err) throw err;
