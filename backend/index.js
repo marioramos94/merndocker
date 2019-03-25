@@ -28,7 +28,7 @@ app.get('/home', (req, res) => {
 // endpoint para leer todos los productos 
 app.get('/products', (req, res) => {
 
-  MongoClient.connect(mongoUrl, function(err, db) {
+  MongoClient.connect(mongoUrl, { useNewUrlParser: true }, function(err, db) {
     if (err) throw err;
     var dbo = db.db("store");
     dbo.collection("products").find({}).toArray(function(err, result) {
@@ -44,7 +44,7 @@ app.get('/products', (req, res) => {
 //endpoint para crear los productos
 
 app.post('/product', (req, res) => {
-  MongoClient.connect(mongoUrl, function(err, db) {
+  MongoClient.connect(mongoUrl, { useNewUrlParser: true },function(err, db) {
     if (err) throw err;
     var dbo = db.db("store");
     var myobj = { name: "Company Inc", address: "Highway 37" };
@@ -58,8 +58,8 @@ app.post('/product', (req, res) => {
 
 
 //endpoint para eliminar los productos 
-app.delete('/product', (mongoUrl, res) => {
-  MongoClient.connect(url, function(err, db) {
+app.delete('/product', (req, res) => {
+  MongoClient.connect(mongoUrl, { useNewUrlParser: true },function(err, db) {
     if (err) throw err;
     var dbo = db.db("store");
     var myquery = { id: req.body.data };
