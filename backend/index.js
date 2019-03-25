@@ -68,7 +68,7 @@ app.delete('/product', (req, res) => {
     if (err) throw req.body.data;
     var dbo = db.db("store");
     
-    var myquery = { id: req.body.data.data };
+    var myquery = { id: helo.data.data };
     dbo.collection("products").deleteOne(myquery, function(err, obj) {
       if (err) throw err;
       console.log("1 document deleted");
