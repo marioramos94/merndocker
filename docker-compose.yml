@@ -2,7 +2,7 @@ version: "3"
 
 services:
   app:
-    image: platziapp
+    image: node:8
     environment:
       MONGO_URL: "mongodb://db:27017/test"
     depends_on:
