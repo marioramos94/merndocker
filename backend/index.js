@@ -64,9 +64,9 @@ app.post('/test', (req, res) => {
   });
 });
 app.post('/product', (req, res) => {
-  MongoClient.connect('mongodb://localhost:27017/', { useNewUrlParser: true },(err, db)=> {
+  MongoClient.connect(mongoUrl, { useNewUrlParser: true },(err, db)=> {
     console.log(mongoUrl)
-    if (err);{}
+    if (err);
     var dbo = db.db("store");
     var myobj = { name: "Company Inc", address: "Highway 37" };
     dbo.collection("products").insertOne(myobj, function(err, res) {
