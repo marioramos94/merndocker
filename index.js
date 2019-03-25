@@ -5,7 +5,7 @@ const port = 3000
 const MongoClient = require('mongodb').MongoClient
 
 // Connection URL
-const mongoUrl = process.env.MONGO_URL || 'mongodb://localhost:27017';
+const mongoUrl = process.env.MONGO_URL || 'mongodb://localhost:27017/test';
 
 app.get('/', (req, res) => {
   MongoClient.connect(mongoUrl, { useNewUrlParser: true }, (err, db) => {
