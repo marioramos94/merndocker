@@ -2,13 +2,13 @@ version: "3"
 
 services:
   front:
-    image: frontend
+    image: frontend1
     depends_on:
       - app
     ports:
       - "80:3000"
   app:
-    image: server
+    image: server1
     environment:
       MONGO_URL: "mongodb://db:27017/test"
     depends_on:
