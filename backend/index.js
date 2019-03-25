@@ -49,7 +49,7 @@ app.post('/product', (req, res) => {
     console.log(mongoUrl)
     if (err);
     var dbo = db.db("store");
-    var myobj = req.body;
+    var myobj = req.body.data;
     dbo.collection("products").insertOne(myobj, function(err, res) {
       if (err) throw err;
       console.log("Product Added ");
