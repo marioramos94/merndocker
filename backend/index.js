@@ -3,7 +3,7 @@ const app = express()
 const port = 3000
 const bodyParser = require('body-parser')
 
-//const MongoClient = require('mongodb').MongoClient
+const MongoClient = require('mongodb').MongoClient
 
 // Connection URL
 const mongoUrl = process.env.MONGO_URL || 'mongodb://localhost:27017/';
@@ -85,6 +85,33 @@ app.delete('/product', (req, res) => {
   });
 });
 
+app.update('/product', (req, res) => {
+  
+  MongoClient.connect(mongoUrl, { useNewUrlParser: true },(err, db) =>{
+    if (err) throw err;
+    var dbo = db.db("store");
+    
+    var newvalues = { $set: req.body };
+    dbo.collection("products").updateOne(req.body.id, newvalues, function(err, res) {
+      if (err) throw err;
+      console.log("1 document updated");
+      db.close();
+    });
+  }); 
+
+});
+
+MongoClient.connect(url, function(err, db) {
+  if (err) throw err;
+  var dbo = db.db("mydb");
+  var myquery = { address: "Valley 345" };
+  var newvalues = { $set: {name: "Mickey", address: "Canyon 123" } };
+  dbo.collection("customers").updateOne(myquery, newvalues, function(err, res) {
+    if (err) throw err;
+    console.log("1 document updated");
+    db.close();
+  });
+}); 
 
 
 
