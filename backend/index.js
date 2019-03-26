@@ -56,7 +56,9 @@ app.post('/product', (req, res) => {
     var myobj = req.body;
     dbo.collection("products").insertOne(myobj, function(err, res) {
       if (err) throw err;
+
       console.log("Product Added ");
+      res.send('Product Added');
       db.close();
     });
   });
@@ -79,6 +81,7 @@ app.delete('/product', (req, res) => {
     var myquery = { id: req.body.id };
     dbo.collection("products").deleteOne(myquery, function(err, obj) {
       if (err) throw err;
+      res.send('Product deleted');
       console.log("1 document deleted");
       db.close();
     });
@@ -94,7 +97,9 @@ app.put('/product', (req, res) => {
     var newvalues = { $set: req.body };
     dbo.collection("products").updateOne(req.body.id, newvalues, function(err, res) {
       if (err) throw err;
-      console.log("1 document updated");
+
+      res.send('Product updated');
+      console.log("1 Product updated");
       db.close();
     });
   }); 
