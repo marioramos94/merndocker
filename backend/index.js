@@ -85,7 +85,7 @@ app.delete('/product', (req, res) => {
   });
 });
 
-app.update('/product', (req, res) => {
+app.put('/product', (req, res) => {
   
   MongoClient.connect(mongoUrl, { useNewUrlParser: true },(err, db) =>{
     if (err) throw err;
