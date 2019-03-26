@@ -1,11 +1,15 @@
 const express = require('express')
 const app = express()
 const port = 3000
+const bodyParser = require('body-parser')
 
-const MongoClient = require('mongodb').MongoClient
+//const MongoClient = require('mongodb').MongoClient
 
 // Connection URL
 const mongoUrl = process.env.MONGO_URL || 'mongodb://localhost:27017/';
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
 app.get('/test', (req, res) => {
   MongoClient.connect(mongoUrl, { useNewUrlParser: true }, (err, db) => {
@@ -49,7 +53,7 @@ app.post('/product', (req, res) => {
     console.log(mongoUrl)
     if (err);
     var dbo = db.db("store");
-    var myobj = req.body.data;
+    var myobj = req.body;
     dbo.collection("products").insertOne(myobj, function(err, res) {
       if (err) throw err;
       console.log("Product Added ");
@@ -59,16 +63,20 @@ app.post('/product', (req, res) => {
 });
 
 
+
+
+
+
 //endpoint para eliminar los productos 
 app.delete('/product', (req, res) => {
-  console.log(req.body)
-  var helo=JSON.parse(req.body)
+  
+  
 
   MongoClient.connect(mongoUrl, { useNewUrlParser: true },(err, db) =>{
-    if (err) throw req.body.data;
+    if (err) throw err;
     var dbo = db.db("store");
     
-    var myquery = { id: helo.data.data };
+    var myquery = { id: req.body.id };
     dbo.collection("products").deleteOne(myquery, function(err, obj) {
       if (err) throw err;
       console.log("1 document deleted");
