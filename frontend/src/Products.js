@@ -14,6 +14,15 @@ export default class Products extends Component {
     this.removeItem = this.removeItem.bind(this);
   }
 
+  getProducts = async () => {
+    let response = await axios.get("http://34.219.10.55:3000/products");
+    let arr = response;
+    this.setState({ list: arr });
+  };
+  getInitialState = () => {
+    this.getProducts();
+  };
+
   postProduct = product => {
     let { id, productName, productPrice } = product;
     axios({
@@ -34,14 +43,45 @@ export default class Products extends Component {
         console.log(response);
       });
   };
+  updateProduct = id => {
+    axios({
+      method: "update",
+      url: "http://34.219.10.55:3000/product",
+      data: {
+        id: id
+      },
+      config: { headers: { "Content-Type": "multipart/form-data" } }
+    })
+      .then(function(response) {
+        console.log(response);
+      })
+      .catch(function(response) {
+        //handle error
+        console.log(response);
+      });
+  };
+  deleteProduct = id => {
+    axios({
+      method: "update",
+      url: "http://34.219.10.55:3000/product",
+      data: {
+        id: id
+      },
+      config: { headers: { "Content-Type": "multipart/form-data" } }
+    })
+      .then(function(response) {
+        console.log(response);
+      })
+      .catch(function(response) {
+        //handle error
+        console.log(response);
+      });
+  };
 
   handleSubmit(e) {
     e.preventDefault();
-    this.postProduct(
-      this.state.id,
-      this.state.productName,
-      this.state.productPrice
-    );
+    let { id, productName, productPrice } = this.state;
+
     let newid = this.state.id + 1;
     this.setState(prevState => ({
       list: prevState.list.concat({
@@ -53,6 +93,7 @@ export default class Products extends Component {
       productName: "",
       productPrice: ""
     }));
+    this.postProduct({ id, productName, productPrice });
   }
 
   handleChange(e) {
@@ -66,10 +107,11 @@ export default class Products extends Component {
     });
   }
 
-  removeItem(index) {
+  removeItem(index, id) {
     const list = this.state.list;
     list.splice(index, 1);
     this.setState({ list });
+    this.deleteProduct(id);
   }
 
   render() {
@@ -93,7 +135,9 @@ export default class Products extends Component {
               return (
                 <li key={index}>
                   {item.productName}-{item.productPrice}
-                  <button onClick={() => this.removeItem(index)}>Delete</button>
+                  <button onClick={() => this.removeItem(index, item.id)}>
+                    Delete
+                  </button>
                 </li>
               );
             })}
