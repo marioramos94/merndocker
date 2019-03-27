@@ -1,9 +1,11 @@
 import React, { Component } from "react";
+import axios from "axios";
 export default class Products extends Component {
   constructor(props) {
     super(props);
     this.state = {
       list: [],
+      id: 0,
       productName: "",
       productPrice: ""
     };
@@ -12,13 +14,42 @@ export default class Products extends Component {
     this.removeItem = this.removeItem.bind(this);
   }
 
+  postProduct = product => {
+    let { id, productName, productPrice } = product;
+    axios({
+      method: "post",
+      url: "http://34.219.10.55:3000/product",
+      data: {
+        id: id,
+        productName: productName,
+        productPrice: productPrice
+      },
+      config: { headers: { "Content-Type": "multipart/form-data" } }
+    })
+      .then(function(response) {
+        console.log(response);
+      })
+      .catch(function(response) {
+        //handle error
+        console.log(response);
+      });
+  };
+
   handleSubmit(e) {
     e.preventDefault();
+    this.postProduct(
+      this.state.id,
+      this.state.productName,
+      this.state.productPrice
+    );
+    let newid = this.state.id + 1;
     this.setState(prevState => ({
       list: prevState.list.concat({
         productName: this.state.productName,
-        productPrice: this.state.productPrice
+        productPrice: this.state.productPrice,
+        id: newid
       }),
+
       productName: "",
       productPrice: ""
     }));
